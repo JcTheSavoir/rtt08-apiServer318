@@ -17,16 +17,32 @@ app.get("/",(req, res) => {
 app.get("/api/foods",(req, res) => {
     res.json(foods)
 });
+    //1a. Creating GET route for for indiviudal foods
+app.get("/api/foods/:id",(req, res) => {
+    const food = foods.find((u) => u.id == req.params.id);
+    if (food) res.json(food)
+});
+
     
 //2. Creating GET route for all of drinks database
 app.get("/api/drinks",(req, res) => {
     res.json(drinks)
+});
+    //2a. Creating GET route for for indiviudal drinks
+app.get("/api/drinks/:id",(req, res) => {
+    const drink = drinks.find((u) => u.id == req.params.id);
+    if (drink) res.json(drink)
 });
 
 //3. Creating GET route for all of desserts database
 app.get("/api/desserts",(req, res) => {
     res.json(desserts)
 });
+    //3a. Creating GET route for for indiviudal desserts
+    app.get("/api/desserts/:id",(req, res) => {
+        const dessert = desserts.find((u) => u.id == req.params.id);
+        if (dessert) res.json(dessert)
+    });
 
 app.listen(port, (req, res) => {
     console.log(`Currently Listening on ${port}`)
