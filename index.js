@@ -17,9 +17,35 @@ const drinks = require("./data/drinks")
 
 //Use the body-parser middleware first
 //This ensures access to the parsed data within the routes
-// Access the data via {req.body}
+//Access the data via {req.body}
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json({ extended: true }))
+
+
+// Middleware that will log each time a new request is made (Used during testing)
+app.use((req, res, next) => {
+    //each time a request is made via the server, a new time will be given
+    const time = new Date();
+    //we then console.log that date while converting it to locale time
+    console.log(
+        //.toLocaleTimeString method converts a time to a string and then to a given locations time,
+        //or the current location if no locale is specified)
+
+        //req.method will give the type of request made (GET, PATCH, etc)
+        //req.url will give the path/route that the server was accessed from for that request.
+      `-----
+  ${time.toLocaleTimeString()}: Received a ${req.method} request to ${req.url}.`
+    );
+    //This "if" statement should only fire off when someone tries to submit data to the api; 
+    //examples would be during a PUT,PATCH,POST request (delete as well, but only if the api is setup to give data to 
+    // the body when a delete request is made).  
+    //This will print the time that the request was made, where it was made to, and the data in the request
+    if (Object.keys(req.body).length > 0) {
+      console.log("Containing the data:");
+      console.log(`${JSON.stringify(req.body)}`);
+    }
+    next();
+});
 
 //1. Creating GET route for all of foods database
 app
